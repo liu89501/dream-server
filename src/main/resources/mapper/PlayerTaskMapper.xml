@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dream.server.database.mapper.PlayerTaskMapper">
+  <resultMap id="BaseResultMap" type="com.dream.server.database.model.PlayerTask">
+    <id column="player_task_ptid" jdbcType="BIGINT" property="ptid" />
+    <result column="player_task_task_state" jdbcType="INTEGER" property="taskState" />
+    <result column="player_task_task_id" jdbcType="INTEGER" property="taskId" />
+    <result column="player_task_player_id" jdbcType="INTEGER" property="playerId" />
+    <result column="player_task_task_tracking" jdbcType="BIT" property="taskTracking" />
+    <result column="group_id" jdbcType="INTEGER" property="groupId" />
+    <result column="task_desc_asset" jdbcType="VARCHAR" property="descAsset" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.dream.server.database.model.PlayerTask">
+    <result column="player_task_task_condition" jdbcType="VARBINARY" property="taskCondition" />
+    <result column="task_reward" jdbcType="VARBINARY" property="taskReward" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    player_task.ptid as player_task_ptid, player_task.task_state as player_task_task_state, 
+    player_task.task_id as player_task_task_id, player_task.player_id as player_task_player_id, 
+    player_task.task_tracking as player_task_task_tracking, tt.task_desc_asset, tt.group_id
+  </sql>
+  <sql id="Blob_Column_List">
+    player_task.task_condition as player_task_task_condition, tt.task_reward
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.dream.server.database.model.PlayerTaskExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from player_task player_task
+    left join template_task tt on tt.task_id = player_task.task_id
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.dream.server.database.model.PlayerTaskExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from player_task player_task
+    left join template_task tt on tt.task_id = player_task.task_id
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from player_task player_task
+    left join template_task tt on tt.task_id = player_task.task_id
+    where player_task.ptid = #{ptid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from player_task
+    where ptid = #{ptid,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.dream.server.database.model.PlayerTaskExample">
+    delete from player_task player_task
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="ptid" keyProperty="ptid" parameterType="com.dream.server.database.model.PlayerTask" useGeneratedKeys="true">
+    insert into player_task (task_state, task_id, player_id, 
+      task_tracking, task_condition)
+    values (#{taskState,jdbcType=INTEGER}, #{taskId,jdbcType=INTEGER}, #{playerId,jdbcType=INTEGER}, 
+      #{taskTracking,jdbcType=BIT}, #{taskCondition,jdbcType=BLOB})
+  </insert>
+  <insert id="insertSelective" keyColumn="ptid" keyProperty="ptid" parameterType="com.dream.server.database.model.PlayerTask" useGeneratedKeys="true">
+    insert into player_task
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="taskState != null">
+        task_state,
+      </if>
+      <if test="taskId != null">
+        task_id,
+      </if>
+      <if test="playerId != null">
+        player_id,
+      </if>
+      <if test="taskTracking != null">
+        task_tracking,
+      </if>
+      <if test="taskCondition != null">
+        task_condition,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="taskState != null">
+        #{taskState,jdbcType=INTEGER},
+      </if>
+      <if test="taskId != null">
+        #{taskId,jdbcType=INTEGER},
+      </if>
+      <if test="playerId != null">
+        #{playerId,jdbcType=INTEGER},
+      </if>
+      <if test="taskTracking != null">
+        #{taskTracking,jdbcType=BIT},
+      </if>
+      <if test="taskCondition != null">
+        #{taskCondition,jdbcType=BLOB},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.dream.server.database.model.PlayerTaskExample" resultType="java.lang.Long">
+    select count(*) from player_task player_task
+    left join template_task tt on tt.task_id = player_task.task_id
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update player_task player_task
+    <set>
+      <if test="record.ptid != null">
+        player_task.ptid = #{record.ptid,jdbcType=BIGINT},
+      </if>
+      <if test="record.taskState != null">
+        player_task.task_state = #{record.taskState,jdbcType=INTEGER},
+      </if>
+      <if test="record.taskId != null">
+        player_task.task_id = #{record.taskId,jdbcType=INTEGER},
+      </if>
+      <if test="record.playerId != null">
+        player_task.player_id = #{record.playerId,jdbcType=INTEGER},
+      </if>
+      <if test="record.taskTracking != null">
+        player_task.task_tracking = #{record.taskTracking,jdbcType=BIT},
+      </if>
+      <if test="record.taskCondition != null">
+        player_task.task_condition = #{record.taskCondition,jdbcType=BLOB},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update player_task player_task
+    set player_task.ptid = #{record.ptid,jdbcType=BIGINT},
+      player_task.task_state = #{record.taskState,jdbcType=INTEGER},
+      player_task.task_id = #{record.taskId,jdbcType=INTEGER},
+      player_task.player_id = #{record.playerId,jdbcType=INTEGER},
+      player_task.task_tracking = #{record.taskTracking,jdbcType=BIT},
+      player_task.task_condition = #{record.taskCondition,jdbcType=BLOB}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update player_task player_task
+    set player_task.ptid = #{record.ptid,jdbcType=BIGINT},
+      player_task.task_state = #{record.taskState,jdbcType=INTEGER},
+      player_task.task_id = #{record.taskId,jdbcType=INTEGER},
+      player_task.player_id = #{record.playerId,jdbcType=INTEGER},
+      player_task.task_tracking = #{record.taskTracking,jdbcType=BIT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dream.server.database.model.PlayerTask">
+    update player_task
+    <set>
+      <if test="taskState != null">
+        task_state = #{taskState,jdbcType=INTEGER},
+      </if>
+      <if test="taskId != null">
+        task_id = #{taskId,jdbcType=INTEGER},
+      </if>
+      <if test="playerId != null">
+        player_id = #{playerId,jdbcType=INTEGER},
+      </if>
+      <if test="taskTracking != null">
+        task_tracking = #{taskTracking,jdbcType=BIT},
+      </if>
+      <if test="taskCondition != null">
+        task_condition = #{taskCondition,jdbcType=BLOB},
+      </if>
+    </set>
+    where ptid = #{ptid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.dream.server.database.model.PlayerTask">
+    update player_task
+    set task_state = #{taskState,jdbcType=INTEGER},
+      task_id = #{taskId,jdbcType=INTEGER},
+      player_id = #{playerId,jdbcType=INTEGER},
+      task_tracking = #{taskTracking,jdbcType=BIT},
+      task_condition = #{taskCondition,jdbcType=BLOB}
+    where ptid = #{ptid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dream.server.database.model.PlayerTask">
+    update player_task
+    set task_state = #{taskState,jdbcType=INTEGER},
+      task_id = #{taskId,jdbcType=INTEGER},
+      player_id = #{playerId,jdbcType=INTEGER},
+      task_tracking = #{taskTracking,jdbcType=BIT}
+    where ptid = #{ptid,jdbcType=BIGINT}
+  </update>
+</mapper>

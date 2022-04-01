@@ -1,0 +1,45 @@
+<config
+        xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+        xmlns='http://www.ehcache.org/v3'
+        xsi:schemaLocation="http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core.xsd">
+
+    <cache-template name="BasePlayerCache">
+        <key-type>java.lang.Integer</key-type>
+        <expiry>
+            <tti unit="minutes">30</tti>
+        </expiry>
+    </cache-template>
+
+    <!--<cache alias="ItemInfo">
+        <key-type>java.lang.Integer</key-type>
+        <value-type>com.dream.database.model.TemplateItem</value-type>
+        <expiry>
+            <tti unit="hours">1</tti>
+        </expiry>
+        <resources>
+            <heap unit="MB">20</heap>
+        </resources>
+    </cache>-->
+
+    <cache alias="PlayerInformation" uses-template="BasePlayerCache" >
+        <value-type>com.dream.server.database.model.Player</value-type>
+        <heap unit="MB">40</heap>
+    </cache>
+
+    <cache alias="AcceptTasks" >
+        <key-type>java.lang.Integer</key-type>
+        <value-type serializer="com.dream.server.cache.PPlayerTaskListSerializer">com.dream.server.param.PPlayerTaskList</value-type>
+        <expiry>
+            <tti unit="minutes">5</tti>
+        </expiry>
+        <resources>
+            <offheap unit="MB">256</offheap>
+        </resources>
+    </cache>
+
+    <cache alias="MaterialCounter" uses-template="BasePlayerCache" >
+        <value-type serializer="com.dream.server.cache.PMaterialCounterSerializer">com.dream.server.param.PMaterialCounter</value-type>
+        <heap unit="MB">32</heap>
+    </cache>
+
+</config>

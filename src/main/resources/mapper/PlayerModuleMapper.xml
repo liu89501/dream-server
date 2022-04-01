@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dream.server.database.mapper.PlayerModuleMapper">
+  <resultMap id="BaseResultMap" type="com.dream.server.database.model.PlayerModule">
+    <id column="module_id" jdbcType="BIGINT" property="moduleId" />
+    <result column="player_id" jdbcType="INTEGER" property="playerId" />
+    <result column="item_guid" jdbcType="INTEGER" property="itemGuid" />
+    <result column="equipped" jdbcType="BIT" property="equipped" />
+    <result column="module_category" jdbcType="INTEGER" property="moduleCategory" />
+    <result column="attack_power" jdbcType="FLOAT" property="attackPower" />
+    <result column="max_health" jdbcType="FLOAT" property="maxHealth" />
+    <result column="critical_damage" jdbcType="DECIMAL" property="criticalDamage" />
+    <result column="critical_rate" jdbcType="DECIMAL" property="criticalRate" />
+    <result column="health_steal" jdbcType="DECIMAL" property="healthSteal" />
+    <result column="defense" jdbcType="FLOAT" property="defense" />
+    <result column="damage_reduction" jdbcType="FLOAT" property="damageReduction" />
+    <result column="penetration" jdbcType="FLOAT" property="penetration" />
+    <result column="module_level" jdbcType="SMALLINT" property="level" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.dream.server.database.model.PlayerModule">
+    <result column="perks" jdbcType="VARBINARY" property="perks" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    module_id, player_id, item_guid, equipped, module_category, attack_power, max_health, 
+    critical_damage, critical_rate, health_steal, defense, damage_reduction, penetration, module_level
+  </sql>
+  <sql id="Blob_Column_List">
+    perks
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.dream.server.database.model.PlayerModuleExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from player_module
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.dream.server.database.model.PlayerModuleExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from player_module
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from player_module
+    where module_id = #{moduleId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from player_module
+    where module_id = #{moduleId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.dream.server.database.model.PlayerModuleExample">
+    delete from player_module
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="module_id" keyProperty="moduleId" parameterType="com.dream.server.database.model.PlayerModule" useGeneratedKeys="true">
+    insert into player_module (player_id, item_guid, equipped, 
+      module_category, attack_power, max_health, 
+      critical_damage, critical_rate, health_steal, 
+      defense, damage_reduction, penetration, 
+      perks, module_level)
+    values (#{playerId,jdbcType=INTEGER}, #{itemGuid,jdbcType=INTEGER}, #{equipped,jdbcType=BIT}, 
+      #{moduleCategory,jdbcType=INTEGER}, #{attackPower,jdbcType=FLOAT}, #{maxHealth,jdbcType=FLOAT}, 
+      #{criticalDamage,jdbcType=DECIMAL}, #{criticalRate,jdbcType=DECIMAL}, #{healthSteal,jdbcType=DECIMAL}, 
+      #{defense,jdbcType=FLOAT}, #{damageReduction,jdbcType=FLOAT}, #{penetration,jdbcType=FLOAT}, 
+      #{perks,jdbcType=BLOB}, #{level})
+  </insert>
+  <select id="countByExample" parameterType="com.dream.server.database.model.PlayerModuleExample" resultType="java.lang.Long">
+    select count(*) from player_module
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update player_module
+    <set>
+      <if test="record.moduleId != null">
+        module_id = #{record.moduleId,jdbcType=BIGINT},
+      </if>
+      <if test="record.playerId != null">
+        player_id = #{record.playerId,jdbcType=INTEGER},
+      </if>
+      <if test="record.itemGuid != null">
+        item_guid = #{record.itemGuid,jdbcType=INTEGER},
+      </if>
+      <if test="record.equipped != null">
+        equipped = #{record.equipped,jdbcType=BIT},
+      </if>
+      <if test="record.moduleCategory != null">
+        module_category = #{record.moduleCategory,jdbcType=INTEGER},
+      </if>
+      <if test="record.attackPower != null">
+        attack_power = #{record.attackPower,jdbcType=FLOAT},
+      </if>
+      <if test="record.maxHealth != null">
+        max_health = #{record.maxHealth,jdbcType=FLOAT},
+      </if>
+      <if test="record.criticalDamage != null">
+        critical_damage = #{record.criticalDamage,jdbcType=DECIMAL},
+      </if>
+      <if test="record.criticalRate != null">
+        critical_rate = #{record.criticalRate,jdbcType=DECIMAL},
+      </if>
+      <if test="record.healthSteal != null">
+        health_steal = #{record.healthSteal,jdbcType=DECIMAL},
+      </if>
+      <if test="record.defense != null">
+        defense = #{record.defense,jdbcType=FLOAT},
+      </if>
+      <if test="record.damageReduction != null">
+        damage_reduction = #{record.damageReduction,jdbcType=FLOAT},
+      </if>
+      <if test="record.penetration != null">
+        penetration = #{record.penetration,jdbcType=FLOAT},
+      </if>
+      <if test="record.perks != null">
+        perks = #{record.perks,jdbcType=BLOB},
+      </if>
+      <if test="record.level != null">
+        module_level = #{record.level},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dream.server.database.model.PlayerModule">
+    update player_module
+    <set>
+      <if test="playerId != null">
+        player_id = #{playerId,jdbcType=INTEGER},
+      </if>
+      <if test="itemGuid != null">
+        item_guid = #{itemGuid,jdbcType=INTEGER},
+      </if>
+      <if test="equipped != null">
+        equipped = #{equipped,jdbcType=BIT},
+      </if>
+      <if test="moduleCategory != null">
+        module_category = #{moduleCategory,jdbcType=INTEGER},
+      </if>
+      <if test="attackPower != null">
+        attack_power = #{attackPower,jdbcType=FLOAT},
+      </if>
+      <if test="maxHealth != null">
+        max_health = #{maxHealth,jdbcType=FLOAT},
+      </if>
+      <if test="criticalDamage != null">
+        critical_damage = #{criticalDamage,jdbcType=DECIMAL},
+      </if>
+      <if test="criticalRate != null">
+        critical_rate = #{criticalRate,jdbcType=DECIMAL},
+      </if>
+      <if test="healthSteal != null">
+        health_steal = #{healthSteal,jdbcType=DECIMAL},
+      </if>
+      <if test="defense != null">
+        defense = #{defense,jdbcType=FLOAT},
+      </if>
+      <if test="damageReduction != null">
+        damage_reduction = #{damageReduction,jdbcType=FLOAT},
+      </if>
+      <if test="penetration != null">
+        penetration = #{penetration,jdbcType=FLOAT},
+      </if>
+      <if test="perks != null">
+        perks = #{perks,jdbcType=BLOB},
+      </if>
+      <if test="level != null">
+        module_level = #{level},
+      </if>
+    </set>
+    where module_id = #{moduleId,jdbcType=BIGINT}
+  </update>
+</mapper>

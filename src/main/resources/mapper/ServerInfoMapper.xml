@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dream.server.database.mapper.ServerInfoMapper">
+  <resultMap id="BaseResultMap" type="com.dream.server.database.model.ServerInfo">
+    <id column="server_id" jdbcType="VARCHAR" property="serverId" />
+    <result column="server_addr" jdbcType="VARCHAR" property="serverAddr" />
+    <result column="map_name" jdbcType="VARCHAR" property="mapName" />
+    <result column="game_mode" jdbcType="VARCHAR" property="gameMode" />
+    <result column="active_players" jdbcType="INTEGER" property="activePlayers" />
+    <result column="max_players" jdbcType="INTEGER" property="maxPlayers" />
+    <result column="active_state" jdbcType="INTEGER" property="activeState" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    server_id, server_addr, map_name, game_mode, active_players, max_players, active_state, 
+    create_date
+  </sql>
+  <select id="selectByExample" parameterType="com.dream.server.database.model.ServerInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from server_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from server_info
+    where server_id = #{serverId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from server_info
+    where server_id = #{serverId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.dream.server.database.model.ServerInfoExample">
+    delete from server_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.dream.server.database.model.ServerInfo">
+    insert into server_info (server_id, server_addr, map_name, game_mode,
+      active_players, max_players, active_state, create_date)
+    values (#{serverId,jdbcType=VARCHAR}, #{serverAddr,jdbcType=VARCHAR}, #{mapName,jdbcType=VARCHAR}, #{gameMode,jdbcType=VARCHAR},
+      #{activePlayers,jdbcType=INTEGER}, #{maxPlayers,jdbcType=INTEGER}, #{activeState,jdbcType=INTEGER}, 
+      #{createDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective"  parameterType="com.dream.server.database.model.ServerInfo">
+    insert into server_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="serverId != null">
+        server_id,
+      </if>
+      <if test="serverAddr != null">
+        server_addr,
+      </if>
+      <if test="mapName != null">
+        map_name,
+      </if>
+      <if test="gameMode != null">
+        game_mode,
+      </if>
+      <if test="activePlayers != null">
+        active_players,
+      </if>
+      <if test="maxPlayers != null">
+        max_players,
+      </if>
+      <if test="activeState != null">
+        active_state,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="serverId != null">
+        #{serverId,jdbcType=VARCHAR},
+      </if>
+      <if test="serverAddr != null">
+        #{serverAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="mapName != null">
+        #{mapName,jdbcType=VARCHAR},
+      </if>
+      <if test="gameMode != null">
+        #{gameMode,jdbcType=VARCHAR},
+      </if>
+      <if test="activePlayers != null">
+        #{activePlayers,jdbcType=INTEGER},
+      </if>
+      <if test="maxPlayers != null">
+        #{maxPlayers,jdbcType=INTEGER},
+      </if>
+      <if test="activeState != null">
+        #{activeState,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.dream.server.database.model.ServerInfoExample" resultType="java.lang.Long">
+    select count(*) from server_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update server_info
+    <set>
+      <if test="record.serverId != null">
+        server_id = #{record.serverId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.serverAddr != null">
+        server_addr = #{record.serverAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mapName != null">
+        map_name = #{record.mapName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gameMode != null">
+        game_mode = #{record.gameMode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.activePlayers != null">
+        active_players = #{record.activePlayers,jdbcType=INTEGER},
+      </if>
+      <if test="record.maxPlayers != null">
+        max_players = #{record.maxPlayers,jdbcType=INTEGER},
+      </if>
+      <if test="record.activeState != null">
+        active_state = #{record.activeState,jdbcType=INTEGER},
+      </if>
+      <if test="record.createDate != null">
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update server_info
+    set server_id = #{record.serverId,jdbcType=VARCHAR},
+      server_addr = #{record.serverAddr,jdbcType=VARCHAR},
+      map_name = #{record.mapName,jdbcType=VARCHAR},
+      game_mode = #{record.gameMode,jdbcType=VARCHAR},
+      active_players = #{record.activePlayers,jdbcType=INTEGER},
+      max_players = #{record.maxPlayers,jdbcType=INTEGER},
+      active_state = #{record.activeState,jdbcType=INTEGER},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dream.server.database.model.ServerInfo">
+    update server_info
+    <set>
+      <if test="serverAddr != null">
+        server_addr = #{serverAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="mapName != null">
+        map_name = #{mapName,jdbcType=VARCHAR},
+      </if>
+      <if test="gameMode != null">
+        game_mode = #{gameMode,jdbcType=VARCHAR},
+      </if>
+      <if test="activePlayers != null">
+        active_players = #{activePlayers,jdbcType=INTEGER},
+      </if>
+      <if test="maxPlayers != null">
+        max_players = #{maxPlayers,jdbcType=INTEGER},
+      </if>
+      <if test="activeState != null">
+        active_state = #{activeState,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where server_id = #{serverId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dream.server.database.model.ServerInfo">
+    update server_info
+    set server_addr = #{serverAddr,jdbcType=VARCHAR},
+      map_name = #{mapName,jdbcType=VARCHAR},
+      game_mode = #{gameMode,jdbcType=VARCHAR},
+      active_players = #{activePlayers,jdbcType=INTEGER},
+      max_players = #{maxPlayers,jdbcType=INTEGER},
+      active_state = #{activeState,jdbcType=INTEGER},
+      create_date = #{createDate,jdbcType=TIMESTAMP}
+    where server_id = #{serverId,jdbcType=VARCHAR}
+  </update>
+</mapper>

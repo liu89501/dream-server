@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    <!--<settings>
+        <setting name="logImpl" value="STDOUT_LOGGING" />
+    </settings>-->
+
+    <typeHandlers>
+        <typeHandler handler="com.dream.server.database.TaskConditionTypeHandler" javaType="com.dream.server.param.PConditionList" jdbcType="VARBINARY"/>
+        <typeHandler handler="com.dream.server.database.ItemTypeHandler" javaType="com.dream.server.param.PItem" jdbcType="VARBINARY"/>
+        <typeHandler handler="com.dream.server.database.AcquisitionCostHandler" javaType="com.dream.server.param.PAcquisitionCostList" jdbcType="VARBINARY"/>
+        <typeHandler handler="com.dream.server.database.ItemListTypeHandler" javaType="com.dream.server.param.PItemList" jdbcType="VARBINARY"/>
+        <typeHandler handler="com.dream.server.database.NIntArrayTypeHandler" javaType="com.dream.server.param.PIntArray" jdbcType="VARBINARY"/>
+    </typeHandlers>
+
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/dev?allowMultiQueries=true"/>
+                <property name="username" value="dev"/>
+                <property name="password" value="89501382"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <mapper resource="mapper/PlayerWeaponMapper.xml"/>
+        <mapper resource="mapper/PlayerModuleMapper.xml"/>
+        <mapper resource="mapper/PlayerMapper.xml"/>
+        <mapper resource="mapper/ServerInfoMapper.xml"/>
+        <mapper resource="mapper/PlayerTaskMapper.xml"/>
+        <mapper resource="mapper/TaskTemplateMapper.xml"/>
+        <mapper resource="mapper/GameStoreItemMapper.xml"/>
+        <mapper resource="mapper/PlayerMaterialMapper.xml"/>
+        <mapper resource="mapper/TemplateItemMapper.xml"/>
+    </mappers>
+</configuration>

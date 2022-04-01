@@ -1,0 +1,5 @@
+{
+  "server-token": "dd51b9ff-6b2c-4207-bfff-c1831cd53806",
+  "server-application-path": "cmd.exe /c D:/UnrealProjects/DreamPkg/WindowsServer/Dream/Binaries/Win64/DreamServer.exe",
+  "string-param-charset": "ASCII"
+}

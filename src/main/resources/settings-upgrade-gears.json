@@ -1,0 +1,107 @@
+{
+  "normal": [
+    {
+      "itemGuid": 3145729,
+      "baseValue": 1000
+    },
+    {
+      "itemGuid": 3211266,
+      "baseValue": 100,
+      "var1": 1.08
+    },
+    {
+      "itemGuid": 3211267,
+      "baseValue": 20,
+      "var1": 1.08,
+      "level": 10
+    }
+  ],
+  "advanced": [
+    {
+      "itemGuid": 3145729,
+      "baseValue": 2000
+    },
+    {
+      "itemGuid": 3211266,
+      "baseValue": 150,
+      "var1": 1.08,
+      "var2": 1.11
+    },
+    {
+      "itemGuid": 3211267,
+      "baseValue": 20,
+      "var1": 1.09,
+      "var2": 1.12,
+      "level": 5
+    }
+  ],
+  "rare": [
+    {
+      "itemGuid": 3145729,
+      "baseValue": 4000,
+      "var1": 1.11
+    },
+    {
+      "itemGuid": 3211266,
+      "baseValue": 250,
+      "var1": 1.09,
+      "var2": 1.12
+    },
+    {
+      "itemGuid": 3211267,
+      "baseValue": 50,
+      "var1": 1.1,
+      "var2": 1.12,
+      "level": 5
+    }
+  ],
+  "epic": [
+    {
+      "itemGuid": 3145729,
+      "baseValue": 6000,
+      "var1": 1.11,
+      "var2": 1.12
+    },
+    {
+      "itemGuid": 3211266,
+      "baseValue": 450,
+      "var1": 1.1,
+      "var2": 1.12
+    },
+    {
+      "itemGuid": 3211267,
+      "baseValue": 150,
+      "var1": 1.11,
+      "var2": 1.13,
+      "level": 5
+    }
+  ],
+  "legendary": [
+    {
+      "itemGuid": 3145729,
+      "baseValue": 9000,
+      "var1": 1.12,
+      "var2": 1.13
+    },
+    {
+      "itemGuid": 3211266,
+      "baseValue": 600,
+      "var1": 1.11,
+      "var2": 1.13
+    },
+    {
+      "itemGuid": 3211267,
+      "baseValue": 300,
+      "var1": 1.13,
+      "var2": 1.11,
+      "level": 5
+    },
+    {
+      "itemGuid": 3276804,
+      "baseValue": 10,
+      "var1": 1.04,
+      "var2": 1.1,
+      "level": 10
+    }
+  ]
+}

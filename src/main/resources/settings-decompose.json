@@ -1,0 +1,72 @@
+{
+  "normal": [
+    {
+      "itemGuid": 3211266,
+      "minNum": 1,
+      "maxNum": 10
+    }
+  ],
+  "advanced": [
+    {
+      "itemGuid": 3211266,
+      "minNum": 10,
+      "maxNum": 20
+    },
+    {
+      "itemGuid": 3211267,
+      "minNum": 3,
+      "maxNum": 9
+    }
+  ],
+  "rare": [
+    {
+      "itemGuid": 3211266,
+      "minNum": 20,
+      "maxNum": 40
+    },
+    {
+      "itemGuid": 3211267,
+      "minNum": 10,
+      "maxNum": 30
+    },
+    {
+      "itemGuid": 3276804,
+      "minNum": 5,
+      "maxNum": 10
+    }
+  ],
+  "epic": [
+    {
+      "itemGuid": 3211266,
+      "minNum": 50,
+      "maxNum": 100
+    },
+    {
+      "itemGuid": 3211267,
+      "minNum": 20,
+      "maxNum": 40
+    },
+    {
+      "itemGuid": 3276804,
+      "minNum": 10,
+      "maxNum": 20
+    }
+  ],
+  "legendary": [
+    {
+      "itemGuid": 3211266,
+      "minNum": 150,
+      "maxNum": 300
+    },
+    {
+      "itemGuid": 3211267,
+      "minNum": 30,
+      "maxNum": 60
+    },
+    {
+      "itemGuid": 3276804,
+      "minNum": 20,
+      "maxNum": 40
+    }
+  ]
+}

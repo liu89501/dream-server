@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dream.server.database.mapper.PlayerMapper">
+    <resultMap id="BaseResultMap" type="com.dream.server.database.model.Player">
+        <id column="game_player_player_id" jdbcType="INTEGER" property="playerId"/>
+        <result column="game_player_platform_account_id" jdbcType="VARCHAR" property="platformAccountId"/>
+        <result column="game_player_player_level" jdbcType="INTEGER" property="playerLevel"/>
+        <result column="game_player_player_exp" jdbcType="INTEGER" property="playerExp"/>
+        <result column="game_player_last_login_date" jdbcType="TIMESTAMP" property="lastLoginDate"/>
+        <result column="game_player_learned_talents" jdbcType="BIGINT" property="learnedTalents"/>
+        <result column="game_player_max_exp" jdbcType="INTEGER" property="maxExp"/>
+        <result column="game_player_login_host" jdbcType="VARCHAR" property="loginHost"/>
+    </resultMap>
+
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        game_player.player_id as game_player_player_id, game_player.platform_account_id as game_player_platform_account_id,
+    game_player.player_level as game_player_player_level,
+    game_player.player_exp as game_player_player_exp, game_player.last_login_date as game_player_last_login_date, 
+    game_player.learned_talents as game_player_learned_talents, game_player.max_exp as game_player_max_exp, 
+    game_player.login_host as game_player_login_host
+    </sql>
+    <select id="selectByExample" parameterType="com.dream.server.database.model.PlayerExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from game_player game_player
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="limit != null">
+            <if test="offset != null">
+                limit ${offset}, ${limit}
+            </if>
+            <if test="offset == null">
+                limit ${limit}
+            </if>
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from game_player game_player
+        where game_player.player_id = #{playerId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from game_player
+        where player_id = #{playerId,jdbcType=INTEGER}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.dream.server.database.model.PlayerExample">
+        delete from game_player game_player
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" keyColumn="player_id" keyProperty="playerId" parameterType="com.dream.server.database.model.Player"
+            useGeneratedKeys="true">
+        insert into game_player (platform_account_id, player_level,
+                                 player_exp, last_login_date, learned_talents,
+                                 max_exp, login_host)
+        values (#{platformAccountId,jdbcType=VARCHAR}, #{playerLevel,jdbcType=INTEGER},
+                #{playerExp,jdbcType=INTEGER}, #{lastLoginDate,jdbcType=TIMESTAMP}, #{learnedTalents,jdbcType=BIGINT},
+                #{maxExp,jdbcType=INTEGER}, #{loginHost,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" keyColumn="player_id" keyProperty="playerId"
+            parameterType="com.dream.server.database.model.Player" useGeneratedKeys="true">
+        insert into game_player
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="platformAccountId != null">
+                platform_account_id,
+            </if>
+            <if test="playerLevel != null">
+                player_level,
+            </if>
+            <if test="playerExp != null">
+                player_exp,
+            </if>
+            <if test="lastLoginDate != null">
+                last_login_date,
+            </if>
+            <if test="learnedTalents != null">
+                learned_talents,
+            </if>
+            <if test="maxExp != null">
+                max_exp,
+            </if>
+            <if test="loginHost != null">
+                login_host,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="platformAccountId != null">
+                #{platformAccountId,jdbcType=VARCHAR},
+            </if>
+            <if test="playerLevel != null">
+                #{playerLevel,jdbcType=INTEGER},
+            </if>
+            <if test="playerExp != null">
+                #{playerExp,jdbcType=INTEGER},
+            </if>
+            <if test="lastLoginDate != null">
+                #{lastLoginDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="learnedTalents != null">
+                #{learnedTalents,jdbcType=BIGINT},
+            </if>
+            <if test="maxExp != null">
+                #{maxExp,jdbcType=INTEGER},
+            </if>
+            <if test="loginHost != null">
+                #{loginHost,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.dream.server.database.model.PlayerExample" resultType="java.lang.Long">
+        select count(*) from game_player game_player
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update game_player game_player
+        <set>
+            <if test="record.playerId != null">
+                game_player.player_id = #{record.playerId,jdbcType=INTEGER},
+            </if>
+            <if test="record.platformAccountId != null">
+                game_player.platform_account_id = #{record.platformAccountId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.playerLevel != null">
+                game_player.player_level = #{record.playerLevel,jdbcType=INTEGER},
+            </if>
+            <if test="record.playerExp != null">
+                game_player.player_exp = #{record.playerExp,jdbcType=INTEGER},
+            </if>
+            <if test="record.lastLoginDate != null">
+                game_player.last_login_date = #{record.lastLoginDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.learnedTalents != null">
+                game_player.learned_talents = #{record.learnedTalents,jdbcType=BIGINT},
+            </if>
+            <if test="record.maxExp != null">
+                game_player.max_exp = #{record.maxExp,jdbcType=INTEGER},
+            </if>
+            <if test="record.loginHost != null">
+                game_player.login_host = #{record.loginHost,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update game_player game_player
+        set game_player.player_id = #{record.playerId,jdbcType=INTEGER},
+        game_player.platform_account_id = #{record.platformAccountId,jdbcType=VARCHAR},
+        game_player.player_level = #{record.playerLevel,jdbcType=INTEGER},
+        game_player.player_exp = #{record.playerExp,jdbcType=INTEGER},
+        game_player.last_login_date = #{record.lastLoginDate,jdbcType=TIMESTAMP},
+        game_player.learned_talents = #{record.learnedTalents,jdbcType=BIGINT},
+        game_player.max_exp = #{record.maxExp,jdbcType=INTEGER},
+        game_player.login_host = #{record.loginHost,jdbcType=VARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.dream.server.database.model.Player">
+        update game_player
+        <set>
+            <if test="platformAccountId != null">
+                platform_account_id = #{platformAccountId,jdbcType=VARCHAR},
+            </if>
+            <if test="playerLevel != null">
+                player_level = #{playerLevel,jdbcType=INTEGER},
+            </if>
+            <if test="playerExp != null">
+                player_exp = #{playerExp,jdbcType=INTEGER},
+            </if>
+            <if test="lastLoginDate != null">
+                last_login_date = #{lastLoginDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="learnedTalents != null">
+                learned_talents = #{learnedTalents,jdbcType=BIGINT},
+            </if>
+            <if test="maxExp != null">
+                max_exp = #{maxExp,jdbcType=INTEGER},
+            </if>
+            <if test="loginHost != null">
+                login_host = #{loginHost,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where player_id = #{playerId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.dream.server.database.model.Player">
+        update game_player
+        set platform_account_id = #{platformAccountId,jdbcType=VARCHAR},
+            player_level        = #{playerLevel,jdbcType=INTEGER},
+            player_exp          = #{playerExp,jdbcType=INTEGER},
+            last_login_date     = #{lastLoginDate,jdbcType=TIMESTAMP},
+            learned_talents     = #{learnedTalents,jdbcType=BIGINT},
+            max_exp             = #{maxExp,jdbcType=INTEGER},
+            login_host          = #{loginHost,jdbcType=VARCHAR}
+        where player_id = #{playerId,jdbcType=INTEGER}
+    </update>
+    <update id="batchUpdatePlayers" parameterType="java.util.List">
+        <foreach item="item" collection="players" index="index" open="" close="" separator=";">
+            update game_player
+            <set>
+                <if test="item.platformAccountId != null">
+                    platform_account_id = #{item.platformAccountId,jdbcType=VARCHAR},
+                </if>
+                <if test="item.playerLevel != null">
+                    player_level = #{item.playerLevel,jdbcType=INTEGER},
+                </if>
+                <if test="item.playerExp != null">
+                    player_exp = #{item.playerExp,jdbcType=INTEGER},
+                </if>
+                <if test="item.maxExp != null">
+                    max_exp = #{item.maxExp,jdbcType=INTEGER},
+                </if>
+                <if test="item.learnedTalents != null">
+                    learned_talents = #{item.learnedTalents,jdbcType=BIGINT},
+                </if>
+            </set>
+            where player_id = #{item.playerId,jdbcType=INTEGER}
+        </foreach>
+    </update>
+</mapper>

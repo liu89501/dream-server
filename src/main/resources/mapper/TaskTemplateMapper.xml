@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dream.server.database.mapper.TaskTemplateMapper">
+  <resultMap id="BaseResultMap" type="com.dream.server.database.model.TaskTemplate">
+    <id column="task_id" jdbcType="INTEGER" property="taskId" />
+    <result column="task_desc_asset" jdbcType="VARCHAR" property="taskDescAsset" />
+    <result column="task_type" jdbcType="TINYINT" property="taskType" />
+    <result column="group_id" jdbcType="INTEGER" property="groupId" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.dream.server.database.model.TaskTemplateWithBLOBs">
+    <result column="task_condition" jdbcType="VARBINARY" property="taskCondition" />
+    <result column="task_reward" jdbcType="VARBINARY" property="taskReward" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    task_id, task_desc_asset, task_type, group_id
+  </sql>
+  <sql id="Blob_Column_List">
+    task_condition, task_reward
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.dream.server.database.model.TaskTemplateExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from template_task
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.dream.server.database.model.TaskTemplateExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from template_task
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from template_task
+    where task_id = #{taskId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from template_task
+    where task_id = #{taskId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.dream.server.database.model.TaskTemplateExample">
+    delete from template_task
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="task_id" keyProperty="taskId" parameterType="com.dream.server.database.model.TaskTemplateWithBLOBs" useGeneratedKeys="true">
+    insert into template_task (task_desc_asset, task_type, group_id,
+      task_condition, task_reward)
+    values (#{taskDescAsset,jdbcType=VARCHAR}, #{taskType,jdbcType=TINYINT}, #{groupId,jdbcType=INTEGER}, 
+      #{taskCondition,jdbcType=BLOB}, #{taskReward,jdbcType=BLOB})
+  </insert>
+  <insert id="insertSelective" keyColumn="task_id" keyProperty="taskId" parameterType="com.dream.server.database.model.TaskTemplateWithBLOBs" useGeneratedKeys="true">
+    insert into template_task
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="taskDescAsset != null">
+        task_desc_asset,
+      </if>
+      <if test="taskType != null">
+        task_type,
+      </if>
+      <if test="groupId != null">
+        group_id,
+      </if>
+      <if test="taskCondition != null">
+        task_condition,
+      </if>
+      <if test="taskReward != null">
+        task_reward,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="taskDescAsset != null">
+        #{taskDescAsset,jdbcType=VARCHAR},
+      </if>
+      <if test="taskType != null">
+        #{taskType,jdbcType=TINYINT},
+      </if>
+      <if test="groupId != null">
+        #{groupId,jdbcType=INTEGER},
+      </if>
+      <if test="taskCondition != null">
+        #{taskCondition,jdbcType=BLOB},
+      </if>
+      <if test="taskReward != null">
+        #{taskReward,jdbcType=BLOB},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.dream.server.database.model.TaskTemplateExample" resultType="java.lang.Long">
+    select count(*) from template_task
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update template_task
+    <set>
+      <if test="record.taskId != null">
+        task_id = #{record.taskId,jdbcType=INTEGER},
+      </if>
+      <if test="record.taskDescAsset != null">
+        task_desc_asset = #{record.taskDescAsset,jdbcType=VARCHAR},
+      </if>
+      <if test="record.taskType != null">
+        task_type = #{record.taskType,jdbcType=TINYINT},
+      </if>
+      <if test="record.groupId != null">
+        group_id = #{record.groupId,jdbcType=INTEGER},
+      </if>
+      <if test="record.taskCondition != null">
+        task_condition = #{record.taskCondition,jdbcType=BLOB},
+      </if>
+      <if test="record.taskReward != null">
+        task_reward = #{record.taskReward,jdbcType=BLOB},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update template_task
+    set task_id = #{record.taskId,jdbcType=INTEGER},
+      task_desc_asset = #{record.taskDescAsset,jdbcType=VARCHAR},
+      task_type = #{record.taskType,jdbcType=TINYINT},
+      group_id = #{record.groupId,jdbcType=INTEGER},
+      task_condition = #{record.taskCondition,jdbcType=BLOB},
+      task_reward = #{record.taskReward,jdbcType=BLOB}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update template_task
+    set task_id = #{record.taskId,jdbcType=INTEGER},
+      task_desc_asset = #{record.taskDescAsset,jdbcType=VARCHAR},
+      task_type = #{record.taskType,jdbcType=TINYINT},
+      group_id = #{record.groupId,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dream.server.database.model.TaskTemplateWithBLOBs">
+    update template_task
+    <set>
+      <if test="taskDescAsset != null">
+        task_desc_asset = #{taskDescAsset,jdbcType=VARCHAR},
+      </if>
+      <if test="taskType != null">
+        task_type = #{taskType,jdbcType=TINYINT},
+      </if>
+      <if test="groupId != null">
+        group_id = #{groupId,jdbcType=INTEGER},
+      </if>
+      <if test="taskCondition != null">
+        task_condition = #{taskCondition,jdbcType=BLOB},
+      </if>
+      <if test="taskReward != null">
+        task_reward = #{taskReward,jdbcType=BLOB},
+      </if>
+    </set>
+    where task_id = #{taskId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.dream.server.database.model.TaskTemplateWithBLOBs">
+    update template_task
+    set task_desc_asset = #{taskDescAsset,jdbcType=VARCHAR},
+      task_type = #{taskType,jdbcType=TINYINT},
+      group_id = #{groupId,jdbcType=INTEGER},
+      task_condition = #{taskCondition,jdbcType=BLOB},
+      task_reward = #{taskReward,jdbcType=BLOB}
+    where task_id = #{taskId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dream.server.database.model.TaskTemplate">
+    update template_task
+    set task_desc_asset = #{taskDescAsset,jdbcType=VARCHAR},
+      task_type = #{taskType,jdbcType=TINYINT},
+      group_id = #{groupId,jdbcType=INTEGER}
+    where task_id = #{taskId,jdbcType=INTEGER}
+  </update>
+</mapper>

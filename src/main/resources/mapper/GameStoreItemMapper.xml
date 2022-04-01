@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dream.server.database.mapper.GameStoreItemMapper">
+  <resultMap id="BaseResultMap" type="com.dream.server.database.model.GameStoreItem">
+    <id column="gsi_id" jdbcType="BIGINT" property="gsiId" />
+    <result column="store_id" jdbcType="INTEGER" property="storeId" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.dream.server.database.model.GameStoreItemWithBLOBs">
+    <result column="item_data" jdbcType="VARBINARY" property="itemData" />
+    <result column="item_cost_data" jdbcType="VARBINARY" property="itemCostData" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    gsi_id, store_id
+  </sql>
+  <sql id="Blob_Column_List">
+    item_data, item_cost_data
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.dream.server.database.model.GameStoreItemExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from game_store_item
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+    <if test="forUpdate != null and forUpdate == true">
+      for update
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.dream.server.database.model.GameStoreItemExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from game_store_item
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+    <if test="forUpdate != null and forUpdate == true">
+      for update
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from game_store_item
+    where gsi_id = #{gsiId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from game_store_item
+    where gsi_id = #{gsiId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.dream.server.database.model.GameStoreItemExample">
+    delete from game_store_item
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="gsi_id" keyProperty="gsiId" parameterType="com.dream.server.database.model.GameStoreItemWithBLOBs" useGeneratedKeys="true">
+    insert into game_store_item (store_id, item_data, item_cost_data
+      )
+    values (#{storeId,jdbcType=INTEGER}, #{itemData,jdbcType=VARBINARY}, #{itemCostData,jdbcType=VARBINARY}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="gsi_id" keyProperty="gsiId" parameterType="com.dream.server.database.model.GameStoreItemWithBLOBs" useGeneratedKeys="true">
+    insert into game_store_item
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="storeId != null">
+        store_id,
+      </if>
+      <if test="itemData != null">
+        item_data,
+      </if>
+      <if test="itemCostData != null">
+        item_cost_data,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="storeId != null">
+        #{storeId,jdbcType=INTEGER},
+      </if>
+      <if test="itemData != null">
+        #{itemData,jdbcType=VARBINARY},
+      </if>
+      <if test="itemCostData != null">
+        #{itemCostData,jdbcType=VARBINARY},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.dream.server.database.model.GameStoreItemExample" resultType="java.lang.Long">
+    select count(*) from game_store_item
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update game_store_item
+    <set>
+      <if test="record.gsiId != null">
+        gsi_id = #{record.gsiId,jdbcType=BIGINT},
+      </if>
+      <if test="record.storeId != null">
+        store_id = #{record.storeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.itemData != null">
+        item_data = #{record.itemData,jdbcType=VARBINARY},
+      </if>
+      <if test="record.itemCostData != null">
+        item_cost_data = #{record.itemCostData,jdbcType=VARBINARY},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update game_store_item
+    set gsi_id = #{record.gsiId,jdbcType=BIGINT},
+      store_id = #{record.storeId,jdbcType=INTEGER},
+      item_data = #{record.itemData,jdbcType=VARBINARY},
+      item_cost_data = #{record.itemCostData,jdbcType=VARBINARY}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update game_store_item
+    set gsi_id = #{record.gsiId,jdbcType=BIGINT},
+      store_id = #{record.storeId,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dream.server.database.model.GameStoreItemWithBLOBs">
+    update game_store_item
+    <set>
+      <if test="storeId != null">
+        store_id = #{storeId,jdbcType=INTEGER},
+      </if>
+      <if test="itemData != null">
+        item_data = #{itemData,jdbcType=VARBINARY},
+      </if>
+      <if test="itemCostData != null">
+        item_cost_data = #{itemCostData,jdbcType=VARBINARY},
+      </if>
+    </set>
+    where gsi_id = #{gsiId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.dream.server.database.model.GameStoreItemWithBLOBs">
+    update game_store_item
+    set store_id = #{storeId,jdbcType=INTEGER},
+      item_data = #{itemData,jdbcType=VARBINARY},
+      item_cost_data = #{itemCostData,jdbcType=VARBINARY}
+    where gsi_id = #{gsiId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dream.server.database.model.GameStoreItem">
+    update game_store_item
+    set store_id = #{storeId,jdbcType=INTEGER}
+    where gsi_id = #{gsiId,jdbcType=BIGINT}
+  </update>
+</mapper>

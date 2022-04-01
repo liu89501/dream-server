@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dream.server.database.mapper.PlayerMaterialMapper">
+  <resultMap id="BaseResultMap" type="com.dream.server.database.model.PlayerMaterial">
+    <id column="pm_id" jdbcType="BIGINT" property="pmId" />
+    <result column="item_guid" jdbcType="INTEGER" property="itemGuid" />
+    <result column="num" jdbcType="INTEGER" property="num" />
+    <result column="player_id" jdbcType="INTEGER" property="playerId" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    pm_id, item_guid, num, player_id
+  </sql>
+  <select id="selectByExample" parameterType="com.dream.server.database.model.PlayerMaterialExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from player_material
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from player_material
+    where pm_id = #{pmId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from player_material
+    where pm_id = #{pmId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.dream.server.database.model.PlayerMaterialExample">
+    delete from player_material
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="pm_id" keyProperty="pmId" parameterType="com.dream.server.database.model.PlayerMaterial" useGeneratedKeys="true">
+    insert into player_material (item_guid, num, player_id
+      )
+    values (#{itemGuid,jdbcType=INTEGER}, #{num,jdbcType=INTEGER}, #{playerId,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="pm_id" keyProperty="pmId" parameterType="com.dream.server.database.model.PlayerMaterial" useGeneratedKeys="true">
+    insert into player_material
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="itemGuid != null">
+        item_guid,
+      </if>
+      <if test="num != null">
+        num,
+      </if>
+      <if test="playerId != null">
+        player_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="itemGuid != null">
+        #{itemGuid,jdbcType=INTEGER},
+      </if>
+      <if test="num != null">
+        #{num,jdbcType=INTEGER},
+      </if>
+      <if test="playerId != null">
+        #{playerId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.dream.server.database.model.PlayerMaterialExample" resultType="java.lang.Long">
+    select count(*) from player_material
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update player_material
+    <set>
+      <if test="record.pmId != null">
+        pm_id = #{record.pmId,jdbcType=BIGINT},
+      </if>
+      <if test="record.itemGuid != null">
+        item_guid = #{record.itemGuid,jdbcType=INTEGER},
+      </if>
+      <if test="record.num != null">
+        num = #{record.num,jdbcType=INTEGER},
+      </if>
+      <if test="record.playerId != null">
+        player_id = #{record.playerId,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update player_material
+    set pm_id = #{record.pmId,jdbcType=BIGINT},
+      item_guid = #{record.itemGuid,jdbcType=INTEGER},
+      num = #{record.num,jdbcType=INTEGER},
+      player_id = #{record.playerId,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dream.server.database.model.PlayerMaterial">
+    update player_material
+    <set>
+      <if test="itemGuid != null">
+        item_guid = #{itemGuid,jdbcType=INTEGER},
+      </if>
+      <if test="num != null">
+        num = #{num,jdbcType=INTEGER},
+      </if>
+      <if test="playerId != null">
+        player_id = #{playerId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where pm_id = #{pmId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dream.server.database.model.PlayerMaterial">
+    update player_material
+    set item_guid = #{itemGuid,jdbcType=INTEGER},
+      num = #{num,jdbcType=INTEGER},
+      player_id = #{playerId,jdbcType=INTEGER}
+    where pm_id = #{pmId,jdbcType=BIGINT}
+  </update>
+</mapper>
